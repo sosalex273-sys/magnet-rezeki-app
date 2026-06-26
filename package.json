@@ -1,0 +1,9 @@
+{
+  "name": "bproject-root",
+  "version": "1.0.0",
+  "description": "Root management for BPROJECT",
+  "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.44.0"
+  }
+}
