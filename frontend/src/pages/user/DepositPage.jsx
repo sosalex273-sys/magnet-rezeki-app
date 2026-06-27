@@ -146,7 +146,7 @@ const DepositPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gradient-blue px-3 sm:px-6 md:px-8 py-4 sm:py-8 pb-20 sm:pb-24">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 px-3 sm:px-6 md:px-8 py-4 sm:py-8 pb-20 sm:pb-24">
       {/* Header */}
       <div className="mb-6 sm:mb-8">
         <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-dark-900 dark:text-white mb-1 sm:mb-2">Riwayat Deposit</h1>
@@ -271,9 +271,9 @@ const DepositPage = () => {
           paginatedDeposits.map(deposit => (
             <div key={deposit.id} className="bg-white/40 dark:bg-white/10 backdrop-blur-xl border border-white/40 dark:border-white/20 p-5 rounded-2xl flex items-center justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/60 dark:hover:bg-white/20 transition-all duration-300">
               <div>
-                <p className="text-lg font-extrabold text-dark-900 dark:text-white drop-shadow-sm">Rp {deposit.amount.toLocaleString('id-ID')}</p>
+                <p className="text-lg font-extrabold text-emerald-600 dark:text-emerald-400 drop-shadow-sm">Rp {deposit.amount.toLocaleString('id-ID')}</p>
                 <p className="text-xs sm:text-sm font-semibold text-dark-600 dark:text-white/80 mt-1">
-                  {deposit.date || 'Tanggal tidak tersedia'} <span className="mx-1 opacity-50">•</span> <span className="tracking-widest uppercase opacity-80">{deposit.code || 'NO-REF'}</span>
+                  <span className="tracking-widest uppercase opacity-80">{deposit.code || 'NO-REF'}</span>
                 </p>
               </div>
               <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold tracking-wide shadow-sm ${getStatusColor(deposit.status)}`}>
