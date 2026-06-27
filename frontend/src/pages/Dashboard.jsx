@@ -65,7 +65,7 @@ const DashboardHome = () => {
       </div>
 
       {/* Main Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="card bg-white border-gray-200 dark:bg-dark-900/70 dark:border-white/10 p-4 sm:p-6 group hover:shadow-soft-xl transition-all duration-200">
           <div className="flex items-start justify-between mb-3 sm:mb-4">
             <div>
@@ -84,16 +84,63 @@ const DashboardHome = () => {
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold animate-pulse drop-shadow-[0_2px_8px_rgba(18,183,106,0.3)] relative z-10" style={{ color: '#12b76a' }}>Rp {(wallet?.total_profit || 0).toLocaleString('id-ID')}</h3>
         </div>
         
-        {/* Investasi Aktif disembunyikan sesuai permintaan */}
-        {/* <div className="card bg-white border-gray-200 dark:bg-dark-900/70 dark:border-white/10 p-6">
-          <p className="text-sm font-medium text-dark-600 dark:text-white/60 mb-1">Investasi Aktif</p>
-          <h3 className="text-2xl md:text-3xl font-bold text-dark-900 dark:text-white">0</h3>
-        </div> */}
-
         <div className="card bg-white border-gray-200 dark:bg-dark-900/70 dark:border-white/10 p-4 sm:p-6 relative overflow-hidden group">
           <div className="absolute -right-4 -top-4 w-16 h-16 sm:w-24 sm:h-24 bg-[#12b76a]/10 rounded-full blur-2xl group-hover:bg-[#12b76a]/20 transition-all duration-500"></div>
           <p className="text-xs sm:text-sm font-medium text-dark-600 dark:text-white/60 mb-1 relative z-10">Profit Hari Ini</p>
           <h3 className="text-xl sm:text-2xl md:text-3xl font-bold animate-pulse drop-shadow-[0_2px_8px_rgba(18,183,106,0.3)] relative z-10" style={{ color: '#12b76a' }}>Rp {todayProfit.toLocaleString('id-ID')}</h3>
+        </div>
+      </div>
+
+      {/* Mobile Stats UI (Custom Design) */}
+      <div className="md:hidden flex flex-col gap-3">
+        <div className="bg-primary-600 rounded-lg p-3 relative overflow-hidden shadow-soft">
+          <p className="text-white/90 text-[11px] font-medium mb-2">Saldo Utama</p>
+          <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-10 relative flex items-center">
+            <span className="text-white font-bold text-sm">Rp {(wallet?.balance || 0).toLocaleString('id-ID')}</span>
+          </div>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            <DollarSign className="text-white/90" size={24} />
+          </div>
+        </div>
+
+        <div className="bg-emerald-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
+          <p className="text-white/90 text-[11px] font-medium mb-2">Total Profit</p>
+          <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-10 relative flex items-center">
+            <span className="text-emerald-400 font-bold text-sm">Rp {(wallet?.total_profit || 0).toLocaleString('id-ID')}</span>
+          </div>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            <TrendingUp className="text-white/90" size={24} />
+          </div>
+        </div>
+        
+        <div className="bg-cyan-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
+          <p className="text-white/90 text-[11px] font-medium mb-2">Profit Hari Ini</p>
+          <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-10 relative flex items-center">
+            <span className="text-cyan-400 font-bold text-sm">Rp {todayProfit.toLocaleString('id-ID')}</span>
+          </div>
+          <div className="absolute right-3 top-1/2 -translate-y-1/2">
+            <BarChart3 className="text-white/90" size={24} />
+          </div>
+        </div>
+        
+        {/* Bottom Half-Width Cards */}
+        <div className="flex gap-3 mt-1">
+          <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
+            <p className="text-white font-bold text-sm mb-0.5 truncate">{kycLabel}</p>
+            <p className="text-white/60 text-[10px]">Status KYC</p>
+            <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-blue-500 rotate-45 transform opacity-90"></div>
+            <div className="absolute bottom-1.5 right-1.5 z-10">
+              <AlertCircle className="text-white" size={14} />
+            </div>
+          </div>
+          <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
+            <p className="text-emerald-400 font-bold text-sm mb-0.5 truncate">{(wallet?.total_profit || 0) > 0 ? 'Aktif' : 'Pasif'}</p>
+            <p className="text-white/60 text-[10px]">Status Akun</p>
+            <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-emerald-500 rotate-45 transform opacity-90"></div>
+            <div className="absolute bottom-1.5 right-1.5 z-10">
+              <Zap className="text-white" size={14} />
+            </div>
+          </div>
         </div>
       </div>
 

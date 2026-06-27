@@ -142,7 +142,7 @@ const WalletPage = () => {
       )}
 
       {/* Balance Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {/* Main Balance Card */}
         <div className="lg:col-span-2 rounded-2xl p-4 sm:p-6 bg-white text-dark-900 shadow-soft-xl border border-gray-200 dark:bg-white/5 dark:text-white dark:border-white/10 backdrop-blur-xl">
           <p className="text-dark-600 dark:text-white/70 text-xs sm:text-sm font-semibold mb-2">Saldo Utama</p>
@@ -178,7 +178,7 @@ const WalletPage = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <div className="bg-white dark:bg-white/5 rounded-lg p-4 sm:p-6 border border-gray-200 dark:border-white/10 relative overflow-hidden group">
           <div className="absolute -right-4 -top-4 w-12 h-12 sm:w-16 sm:h-16 bg-[#12b76a]/10 rounded-full blur-xl group-hover:bg-[#12b76a]/20 transition-all duration-500"></div>
           <p className="text-gray-600 dark:text-white/60 text-xs sm:text-sm font-semibold mb-1 sm:mb-2 relative z-10">Profit Hari Ini</p>
@@ -195,6 +195,58 @@ const WalletPage = () => {
           <p className="text-gray-600 dark:text-white/60 text-xs sm:text-sm font-semibold mb-1 sm:mb-2">Total Tarik</p>
           <h3 className="text-lg sm:text-2xl font-bold text-red-600">Rp {summary.withdrawals.toLocaleString('id-ID')}</h3>
           <p className="text-[10px] sm:text-xs text-gray-500 dark:text-white/50 mt-1 sm:mt-2">Dana yang sudah dicairkan</p>
+        </div>
+      </div>
+
+      {/* Mobile Wallet UI (Custom Design) */}
+      <div className="md:hidden flex flex-col gap-3 mb-6">
+        <div className="bg-primary-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
+          <p className="text-white/90 text-[11px] mb-2 font-medium">Saldo Utama</p>
+          <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-12 relative flex items-center">
+            <span className="text-white font-bold text-[13px]">Rp {summary.currentBalance.toLocaleString('id-ID')}</span>
+          </div>
+          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <Wallet className="text-white/90" size={24} />
+          </div>
+        </div>
+
+        <div className="bg-blue-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
+          <p className="text-white/90 text-[11px] mb-2 font-medium">Total Penarikan (Withdraw)</p>
+          <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-12 relative flex items-center">
+            <span className="text-white font-bold text-[13px]">Rp {summary.withdrawals.toLocaleString('id-ID')}</span>
+          </div>
+          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <ArrowUp className="text-white/90" size={24} />
+          </div>
+        </div>
+
+        <div className="bg-cyan-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
+          <p className="text-white/90 text-[11px] mb-2 font-medium">Total Deposit</p>
+          <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-12 relative flex items-center">
+            <span className="text-white font-bold text-[13px]">Rp {summary.deposits.toLocaleString('id-ID')}</span>
+          </div>
+          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <ArrowDown className="text-white/90" size={24} />
+          </div>
+        </div>
+
+        <div className="flex gap-3 mt-1">
+          <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
+            <p className="text-white font-bold text-[13px] mb-0.5 truncate">Rp {summary.investments.toLocaleString('id-ID')}</p>
+            <p className="text-white/60 text-[10px]">Total Investasi</p>
+            <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-blue-500 rotate-45 transform opacity-90"></div>
+            <div className="absolute bottom-1.5 right-1.5 z-10">
+              <Zap className="text-white" size={12} />
+            </div>
+          </div>
+          <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
+            <p className="text-emerald-400 font-bold text-[13px] mb-0.5 truncate">Rp {summary.totalProfit.toLocaleString('id-ID')}</p>
+            <p className="text-white/60 text-[10px]">Total Profit</p>
+            <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-emerald-500 rotate-45 transform opacity-90"></div>
+            <div className="absolute bottom-1.5 right-1.5 z-10">
+              <TrendingUp className="text-white" size={12} />
+            </div>
+          </div>
         </div>
       </div>
 

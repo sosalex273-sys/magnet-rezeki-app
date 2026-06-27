@@ -164,17 +164,17 @@ const TopBar = ({ user: propUser, onLogout }) => {
 
           {/* Mobile Profile Dropdown */}
           {showProfile && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border-gray-200 dark:bg-dark-900/95 dark:border-white/10 rounded-lg shadow-soft-xl backdrop-blur-xl overflow-hidden animate-fade-in z-50">
+            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 dark:bg-[#151b2b] dark:border-gray-700 rounded-lg shadow-2xl overflow-hidden animate-fade-in z-[100] isolate">
               <div className="py-1">
-                <button onClick={() => { navigate('/dashboard/profile'); setShowProfile(false); }} className="w-full flex items-center gap-3 px-3 py-2.5 text-dark-600 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-all">
+                <button onClick={() => { navigate('/dashboard/profile'); setShowProfile(false); }} className="w-full flex items-center gap-3 px-3 py-2.5 text-dark-600 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/10 transition-all font-medium">
                   <User size={16} />
                   <span className="text-sm">Profile</span>
                 </button>
-                <button onClick={toggleTheme} className="w-full flex items-center gap-3 px-3 py-2.5 text-dark-600 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-all">
+                <button onClick={toggleTheme} className="w-full flex items-center gap-3 px-3 py-2.5 text-dark-600 dark:text-white/80 hover:bg-gray-100 dark:hover:bg-white/10 transition-all font-medium">
                   {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
                   <span className="text-sm">Ganti Tema</span>
                 </button>
-                <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
+                <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all font-medium">
                   <LogOut size={16} />
                   <span className="text-sm">Logout</span>
                 </button>
