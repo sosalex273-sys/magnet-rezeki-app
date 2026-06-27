@@ -128,34 +128,59 @@ const TopBar = ({ user: propUser, onLogout }) => {
       </div>
 
       {/* Mobile TopBar */}
-      <div className="md:hidden flex h-14 bg-blue-50 dark:bg-dark-950/80 backdrop-blur-xl border-b border-gray-200 dark:border-white/10 px-3 items-center justify-between sticky top-0 z-30">
-        {/* Logo */}
-        <div className="flex items-center gap-2 min-w-0">
-          <img src="/logo.png" alt="Logo" className="w-9 h-9 object-contain shrink-0" />
-          <div className="leading-tight min-w-0">
-            <p className="text-[11px] font-bold text-dark-900 dark:text-white truncate">Magnet</p>
-            <p className="text-[10px] text-dark-600 dark:text-white/50 truncate">Rezeki</p>
-          </div>
+      <div className="md:hidden flex h-14 bg-blue-50 dark:bg-[#0a0f1c]/90 backdrop-blur-xl border-b border-gray-200 dark:border-white/5 px-2.5 items-center justify-between sticky top-0 z-30">
+        
+        {/* Left: Hamburger */}
+        <button
+          onClick={() => setShowMobileMenu(!showMobileMenu)}
+          className="p-1.5 rounded-md bg-[#00a8cc] hover:bg-[#008ba8] text-white transition-all shadow-sm shrink-0"
+        >
+          {showMobileMenu ? <X size={20} /> : <Menu size={20} />}
+        </button>
+
+        {/* Center: Balance */}
+        <div className="flex-1 flex justify-center items-center px-2 min-w-0">
+          <p className="text-[13px] font-bold text-dark-900 dark:text-white/90 truncate">
+            Rp {(wallet?.balance || 0).toLocaleString('id-ID', { minimumFractionDigits: 2 })}
+          </p>
         </div>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        {/* Right: Profile */}
+        <div className="relative shrink-0">
           <button 
-            onClick={toggleTheme}
-            className="p-1.5 rounded-lg bg-blue-100 dark:bg-dark-900/70 text-dark-600 dark:text-white/70 hover:bg-blue-200 dark:hover:bg-dark-800/80 transition-all"
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            onClick={() => setShowProfile(!showProfile)}
+            className="flex items-center gap-1.5 bg-dark-900 dark:bg-[#151b2b] border border-gray-700 dark:border-white/5 pl-1 pr-2 py-1 rounded-md hover:bg-dark-800 transition-all max-w-[150px]"
           >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            <div className="w-6 h-6 rounded-full border border-white/20 overflow-hidden shrink-0 flex items-center justify-center">
+              {user?.avatar_url || user?.avatar ? (
+                <img src={user.avatar_url || user.avatar} alt="Avatar" className="w-full h-full object-cover" />
+              ) : (
+                <User size={14} className="text-white" />
+              )}
+            </div>
+            <p className="text-[11px] font-medium text-white truncate">{userName}</p>
+            <ChevronDown size={12} className={`text-white/60 transition-transform ${showProfile ? 'rotate-180' : ''} shrink-0`} />
           </button>
-          <button className="p-1.5 rounded-lg bg-blue-100 dark:bg-dark-900/70 text-dark-600 dark:text-white/70 hover:bg-blue-200 dark:hover:bg-dark-800/80 transition-all">
-            <Bell size={16} />
-          </button>
-          <button
-            onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className="p-1.5 rounded-lg bg-blue-100 dark:bg-dark-900/70 text-dark-600 dark:text-white/70 hover:bg-blue-200 dark:hover:bg-dark-800/80 transition-all"
-          >
-            {showMobileMenu ? <X size={16} /> : <Menu size={16} />}
-          </button>
+
+          {/* Mobile Profile Dropdown */}
+          {showProfile && (
+            <div className="absolute right-0 mt-2 w-48 bg-white border-gray-200 dark:bg-dark-900/95 dark:border-white/10 rounded-lg shadow-soft-xl backdrop-blur-xl overflow-hidden animate-fade-in z-50">
+              <div className="py-1">
+                <button onClick={() => { navigate('/dashboard/profile'); setShowProfile(false); }} className="w-full flex items-center gap-3 px-3 py-2.5 text-dark-600 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-all">
+                  <User size={16} />
+                  <span className="text-sm">Profile</span>
+                </button>
+                <button onClick={toggleTheme} className="w-full flex items-center gap-3 px-3 py-2.5 text-dark-600 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10 transition-all">
+                  {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                  <span className="text-sm">Ganti Tema</span>
+                </button>
+                <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
+                  <LogOut size={16} />
+                  <span className="text-sm">Logout</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {/* Mobile Menu Overlay */}
