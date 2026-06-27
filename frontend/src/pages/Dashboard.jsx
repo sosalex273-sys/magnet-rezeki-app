@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import TopBar from '../components/TopBar';
-import { TrendingUp, DollarSign, Zap, AlertCircle, BarChart3, Wallet } from 'lucide-react';
+import { TrendingUp, DollarSign, Zap, AlertCircle, BarChart3, Wallet, ArrowUp, ArrowDown } from 'lucide-react';
 import { useUser } from '../context/UserContext';
 import api from '../utils/api';
 import { PhotoPreviewProvider } from '../context/PhotoPreviewContext';
@@ -23,20 +23,49 @@ import MarketOverview from '../components/user/MarketOverview';
 
 const DashboardHome = () => {
   const { user, wallet, loading } = useUser();
-  const [todayProfit, setTodayProfit] = React.useState(0);
+  const [summary, setSummary] = React.useState({
+    todayProfit: 0,
+    deposits: 0,
+    withdrawals: 0,
+    investments: 0,
+    bonuses: 0
+  });
 
   React.useEffect(() => {
+    let mounted = true;
     if (user?.id) {
       api.get(`/api/transactions/${user.id}`)
         .then(res => {
+          if (!mounted) return;
+          const txs = Array.isArray(res.data) ? res.data : [];
+          const normalizeAmount = (value) => Number(value || 0);
+          
           const today = new Date().toISOString().split('T')[0];
-          const profitToday = res.data
-            .filter(t => t.type === 'profit' && t.created_at.startsWith(today))
-            .reduce((sum, t) => sum + Number(t.amount || 0), 0);
-          setTodayProfit(profitToday);
+          const todayProfit = txs
+            .filter(t => t.type === 'profit' && t.created_at?.startsWith(today))
+            .reduce((sum, t) => sum + Math.max(normalizeAmount(t.amount), 0), 0);
+            
+          const deposits = txs
+            .filter(t => t.type === 'deposit')
+            .reduce((sum, t) => sum + Math.max(normalizeAmount(t.amount), 0), 0);
+            
+          const withdrawals = txs
+            .filter(t => t.type === 'withdrawal')
+            .reduce((sum, t) => sum + Math.abs(normalizeAmount(t.amount)), 0);
+            
+          const investments = txs
+            .filter(t => t.type === 'investment')
+            .reduce((sum, t) => sum + Math.abs(normalizeAmount(t.amount)), 0);
+            
+          const bonuses = txs
+            .filter(t => t.type === 'bonus')
+            .reduce((sum, t) => sum + Math.max(normalizeAmount(t.amount), 0), 0);
+
+          setSummary({ todayProfit, deposits, withdrawals, investments, bonuses });
         })
         .catch(err => console.error(err));
     }
+    return () => { mounted = false; };
   }, [user?.id]);
 
   if (loading) {
@@ -87,12 +116,12 @@ const DashboardHome = () => {
         <div className="card bg-white border-gray-200 dark:bg-dark-900/70 dark:border-white/10 p-4 sm:p-6 relative overflow-hidden group">
           <div className="absolute -right-4 -top-4 w-16 h-16 sm:w-24 sm:h-24 bg-[#12b76a]/10 rounded-full blur-2xl group-hover:bg-[#12b76a]/20 transition-all duration-500"></div>
           <p className="text-xs sm:text-sm font-medium text-dark-600 dark:text-white/60 mb-1 relative z-10">Profit Hari Ini</p>
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold animate-pulse drop-shadow-[0_2px_8px_rgba(18,183,106,0.3)] relative z-10" style={{ color: '#12b76a' }}>Rp {todayProfit.toLocaleString('id-ID')}</h3>
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold animate-pulse drop-shadow-[0_2px_8px_rgba(18,183,106,0.3)] relative z-10" style={{ color: '#12b76a' }}>Rp {summary.todayProfit.toLocaleString('id-ID')}</h3>
         </div>
       </div>
 
       {/* Mobile Stats UI (Custom Design) */}
-      <div className="md:hidden flex flex-col gap-3">
+      <div className="md:hidden flex flex-col gap-3 mb-4">
         <div className="bg-primary-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
           <p className="text-white/90 text-[11px] mb-2 font-medium">Saldo Utama</p>
           <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-12 relative flex items-center">
@@ -103,42 +132,60 @@ const DashboardHome = () => {
           </div>
         </div>
 
-        <div className="bg-emerald-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
-          <p className="text-white/90 text-[11px] mb-2 font-medium">Total Profit</p>
+        <div className="bg-blue-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
+          <p className="text-white/90 text-[11px] mb-2 font-medium">Total Penarikan (Withdraw)</p>
           <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-12 relative flex items-center">
-            <span className="text-white font-bold text-[13px]">Rp {(wallet?.total_profit || 0).toLocaleString('id-ID')}</span>
+            <span className="text-white font-bold text-[13px]">Rp {summary.withdrawals.toLocaleString('id-ID')}</span>
           </div>
           <div className="absolute right-4 top-1/2 -translate-y-1/2">
-            <TrendingUp className="text-white/90" size={24} />
+            <ArrowUp className="text-white/90" size={24} />
           </div>
         </div>
-        
+
         <div className="bg-cyan-500 rounded-lg p-3 relative overflow-hidden shadow-soft">
-          <p className="text-white/90 text-[11px] mb-2 font-medium">Profit Hari Ini</p>
+          <p className="text-white/90 text-[11px] mb-2 font-medium">Total Deposit</p>
           <div className="bg-[#0a0f1c] rounded-full py-2 px-4 mr-12 relative flex items-center">
-            <span className="text-white font-bold text-[13px]">Rp {todayProfit.toLocaleString('id-ID')}</span>
+            <span className="text-white font-bold text-[13px]">Rp {summary.deposits.toLocaleString('id-ID')}</span>
           </div>
           <div className="absolute right-4 top-1/2 -translate-y-1/2">
-            <BarChart3 className="text-white/90" size={24} />
+            <ArrowDown className="text-white/90" size={24} />
           </div>
         </div>
-        
-        {/* Bottom Half-Width Cards */}
+
         <div className="flex gap-3 mt-1">
           <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
-            <p className="text-white font-bold text-[13px] mb-0.5 truncate">{kycLabel}</p>
-            <p className="text-white/60 text-[10px]">Status KYC</p>
+            <p className="text-white font-bold text-[13px] mb-0.5 truncate">Rp {summary.investments.toLocaleString('id-ID')}</p>
+            <p className="text-white/60 text-[10px]">Total Investasi</p>
             <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-blue-500 rotate-45 transform opacity-90"></div>
             <div className="absolute bottom-1.5 right-1.5 z-10">
-              <AlertCircle className="text-white" size={12} />
+              <Zap className="text-white" size={12} />
             </div>
           </div>
           <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
-            <p className="text-emerald-400 font-bold text-[13px] mb-0.5 truncate">{(wallet?.total_profit || 0) > 0 ? 'Aktif' : 'Pasif'}</p>
-            <p className="text-white/60 text-[10px]">Status Akun</p>
+            <p className="text-emerald-400 font-bold text-[13px] mb-0.5 truncate">Rp {(wallet?.total_profit || 0).toLocaleString('id-ID')}</p>
+            <p className="text-white/60 text-[10px]">Total Profit</p>
             <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-emerald-500 rotate-45 transform opacity-90"></div>
             <div className="absolute bottom-1.5 right-1.5 z-10">
-              <Zap className="text-white" size={12} />
+              <TrendingUp className="text-white" size={12} />
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex gap-3 mt-1">
+          <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
+            <p className="text-cyan-400 font-bold text-[13px] mb-0.5 truncate">Rp {summary.todayProfit.toLocaleString('id-ID')}</p>
+            <p className="text-white/60 text-[10px]">Profit Hari Ini</p>
+            <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-cyan-500 rotate-45 transform opacity-90"></div>
+            <div className="absolute bottom-1.5 right-1.5 z-10">
+              <TrendingUp className="text-white" size={12} />
+            </div>
+          </div>
+          <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
+            <p className="text-yellow-400 font-bold text-[13px] mb-0.5 truncate">Rp {summary.bonuses.toLocaleString('id-ID')}</p>
+            <p className="text-white/60 text-[10px]">Bonus Terkumpul</p>
+            <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-yellow-500 rotate-45 transform opacity-90"></div>
+            <div className="absolute bottom-1.5 right-1.5 z-10">
+              <TrendingUp className="text-white" size={12} />
             </div>
           </div>
         </div>
