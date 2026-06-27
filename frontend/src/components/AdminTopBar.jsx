@@ -27,96 +27,96 @@ const AdminTopBar = ({ onLogout, theme = 'dark', onToggleTheme }) => {
   }, [expandedMenu]);
 
   const menus = {
-    home: { label: 'Home', path: '/admin/dashboard' },
+    home: { label: 'Home', path: '/pandu/dashboard' },
     setting: {
       label: 'Setting',
       submenu: [
-        { label: 'Konfigurasi', path: '/admin/dashboard/setting/config' },
-        { label: 'Header/Banner Manager', path: '/admin/dashboard/setting/header' },
-        { label: 'Menu Manager', path: '/admin/dashboard/setting/menu' },
-        { label: 'News Manager', path: '/admin/dashboard/setting/news' },
-        { label: 'FAQ Manager', path: '/admin/dashboard/setting/faq' },
-        { label: 'Content', path: '/admin/dashboard/setting/content' }
+        { label: 'Konfigurasi', path: '/pandu/dashboard/setting/config' },
+        { label: 'Header/Banner Manager', path: '/pandu/dashboard/setting/header' },
+        { label: 'Menu Manager', path: '/pandu/dashboard/setting/menu' },
+        { label: 'News Manager', path: '/pandu/dashboard/setting/news' },
+        { label: 'FAQ Manager', path: '/pandu/dashboard/setting/faq' },
+        { label: 'Content', path: '/pandu/dashboard/setting/content' }
       ]
     },
     kyc: {
       label: 'KYC',
       submenu: [
-        { label: 'KYC', path: '/admin/dashboard/kyc/list' },
-        { label: 'Konfirmasi Pembayaran', path: '/admin/dashboard/kyc/confirm' },
-        { label: 'Contact Member', path: '/admin/dashboard/kyc/contact' }
+        { label: 'KYC', path: '/pandu/dashboard/kyc/list' },
+        { label: 'Konfirmasi Pembayaran', path: '/pandu/dashboard/kyc/confirm' },
+        { label: 'Contact Member', path: '/pandu/dashboard/kyc/contact' }
       ]
     },
     pin: {
       label: 'PIN',
       submenu: [
-        { label: 'Data PIN Register', path: '/admin/dashboard/pin/data' },
-        { label: 'Generate PIN Register', path: '/admin/dashboard/pin/generate' },
-        { label: 'Order PIN Register', path: '/admin/dashboard/pin/order' }
+        { label: 'Data PIN Register', path: '/pandu/dashboard/pin/data' },
+        { label: 'Generate PIN Register', path: '/pandu/dashboard/pin/generate' },
+        { label: 'Order PIN Register', path: '/pandu/dashboard/pin/order' }
       ]
     },
     member: {
       label: 'Member',
       submenu: [
-        { label: 'All Member', path: '/admin/dashboard/member/list' },
-        { label: 'Add Member', path: '/admin/dashboard/member/add' },
-        { label: 'Testimonial', path: '/admin/dashboard/member/testimonial' },
-        { label: 'Email Validation', path: '/admin/dashboard/member/email' }
+        { label: 'All Member', path: '/pandu/dashboard/member/list' },
+        { label: 'Add Member', path: '/pandu/dashboard/member/add' },
+        { label: 'Testimonial', path: '/pandu/dashboard/member/testimonial' },
+        { label: 'Email Validation', path: '/pandu/dashboard/member/email' }
       ]
     },
     invest: {
       label: 'Invest',
       submenu: [
-        { label: 'Investment', path: '/admin/dashboard/invest/list' },
-        { label: 'Add Invest', path: '/admin/dashboard/invest/add' },
-        { label: 'Data Invest', path: '/admin/dashboard/invest/data' },
-        { label: 'Data Profit', path: '/admin/dashboard/invest/profit' },
-        { label: 'Add Profit User Invest', path: '/admin/dashboard/invest/add-profit' }
+        { label: 'Investment', path: '/pandu/dashboard/invest/list' },
+        { label: 'Add Invest', path: '/pandu/dashboard/invest/add' },
+        { label: 'Data Invest', path: '/pandu/dashboard/invest/data' },
+        { label: 'Data Profit', path: '/pandu/dashboard/invest/profit' },
+        { label: 'Add Profit User Invest', path: '/pandu/dashboard/invest/add-profit' }
       ]
     },
     trade: {
       label: 'Trade',
       submenu: [
-        { label: 'Stake', path: '/admin/dashboard/trade/stake' },
-        { label: 'Data Trade', path: '/admin/dashboard/trade/data' }
+        { label: 'Stake', path: '/pandu/dashboard/trade/stake' },
+        { label: 'Data Trade', path: '/pandu/dashboard/trade/data' }
       ]
     },
     bonus: {
       label: 'Bonus',
       submenu: [
-        { label: 'Bonus Member', path: '/admin/dashboard/bonus/member' },
-        { label: 'Add Bonus', path: '/admin/dashboard/bonus/add' }
+        { label: 'Bonus Member', path: '/pandu/dashboard/bonus/member' },
+        { label: 'Add Bonus', path: '/pandu/dashboard/bonus/add' }
       ]
     },
     reward: {
       label: 'Reward',
       submenu: [
-        { label: 'Withdrawal Reward', path: '/admin/dashboard/reward/withdrawal' },
-        { label: 'Add Reward', path: '/admin/dashboard/reward/add' }
+        { label: 'Withdrawal Reward', path: '/pandu/dashboard/reward/withdrawal' },
+        { label: 'Add Reward', path: '/pandu/dashboard/reward/add' }
       ]
     },
     balance: {
       label: 'Balance',
       submenu: [
-        { label: 'Wallet Balance', path: '/admin/dashboard/balance/wallet' },
-        { label: 'List Add Balance', path: '/admin/dashboard/balance/add-list' },
-        { label: 'List Withdrawal', path: '/admin/dashboard/balance/withdrawal' },
-        { label: 'List Transfer', path: '/admin/dashboard/balance/transfer' }
+        { label: 'Wallet Balance', path: '/pandu/dashboard/balance/wallet' },
+        { label: 'List Add Balance', path: '/pandu/dashboard/balance/add-list' },
+        { label: 'List Withdrawal', path: '/pandu/dashboard/balance/withdrawal' },
+        { label: 'List Transfer', path: '/pandu/dashboard/balance/transfer' }
       ]
     },
     download: {
       label: 'Download',
       submenu: [
-        { label: 'Download Member', path: '/admin/dashboard/download/member' },
-        { label: 'Tambah Download Member', path: '/admin/dashboard/download/add' },
-        { label: 'Data Download', path: '/admin/dashboard/download/data' }
+        { label: 'Download Member', path: '/pandu/dashboard/download/member' },
+        { label: 'Tambah Download Member', path: '/pandu/dashboard/download/add' },
+        { label: 'Data Download', path: '/pandu/dashboard/download/data' }
       ]
     },
     admin: {
       label: 'Admin',
       submenu: [
-        { label: 'Change Password', path: '/admin/dashboard/admin/password' },
-        { label: 'Admin Manager', path: '/admin/dashboard/admin/manager' }
+        { label: 'Change Password', path: '/pandu/dashboard/admin/password' },
+        { label: 'Admin Manager', path: '/pandu/dashboard/admin/manager' }
       ]
     }
   };
