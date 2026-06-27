@@ -248,6 +248,25 @@ const WalletPage = () => {
             </div>
           </div>
         </div>
+        
+        <div className="flex gap-3 mt-1">
+          <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
+            <p className="text-cyan-400 font-bold text-[13px] mb-0.5 truncate">Rp {summary.todayProfit.toLocaleString('id-ID')}</p>
+            <p className="text-white/60 text-[10px]">Profit Hari Ini</p>
+            <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-cyan-500 rotate-45 transform opacity-90"></div>
+            <div className="absolute bottom-1.5 right-1.5 z-10">
+              <TrendingUp className="text-white" size={12} />
+            </div>
+          </div>
+          <div className="bg-[#0f172a] rounded-lg p-3 relative overflow-hidden flex-1 border border-white/5 shadow-soft">
+            <p className="text-yellow-400 font-bold text-[13px] mb-0.5 truncate">Rp {summary.bonuses.toLocaleString('id-ID')}</p>
+            <p className="text-white/60 text-[10px]">Bonus Terkumpul</p>
+            <div className="absolute -bottom-6 -right-6 w-14 h-14 bg-yellow-500 rotate-45 transform opacity-90"></div>
+            <div className="absolute bottom-1.5 right-1.5 z-10">
+              <TrendingUp className="text-white" size={12} />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Transactions Header */}
