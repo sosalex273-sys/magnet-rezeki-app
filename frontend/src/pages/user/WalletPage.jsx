@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowUp, ArrowDown, TrendingUp, Wallet } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, Wallet, Zap } from 'lucide-react';
 import { useUser } from '../../context/UserContext'; // Pastikan import UserContext
 import api from '../../utils/api';
 
