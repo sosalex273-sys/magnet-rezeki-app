@@ -149,17 +149,9 @@ const DepositPage = () => {
     <div className="min-h-screen bg-white dark:bg-gradient-blue px-3 sm:px-6 md:px-8 py-4 sm:py-8 pb-20 sm:pb-24">
       {/* Header */}
       <div className="mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-dark-900 dark:text-white mb-1 sm:mb-2">Deposit</h1>
-        <p className="text-sm sm:text-base text-dark-600 dark:text-white/70">Tambahkan saldo ke akun Anda untuk mulai berinvestasi</p>
+        <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-dark-900 dark:text-white mb-1 sm:mb-2">Riwayat Deposit</h1>
+        <p className="text-sm sm:text-base text-dark-600 dark:text-white/70 max-w-3xl">Setelah melakukan deposit, seluruh transaksi akan otomatis tercatat pada halaman ini sehingga Anda dapat memantau riwayat deposit dengan mudah.</p>
       </div>
-
-      {/* Deposit Button */}
-      <button
-        onClick={() => setShowDepositForm(true)}
-        className="mb-6 sm:mb-8 btn-primary px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-bold w-full max-w-xs"
-      >
-        + Deposit Sekarang
-      </button>
 
       {/* Deposit Form Modal */}
       {showDepositForm && (
@@ -277,19 +269,21 @@ const DepositPage = () => {
           <p className="text-dark-600 dark:text-white/60">Memuat riwayat deposit...</p>
         ) : paginatedDeposits.length > 0 ? (
           paginatedDeposits.map(deposit => (
-            <div key={deposit.id} className="bg-white dark:bg-dark-900/70 border border-gray-200 dark:border-white/10 p-4 rounded-xl flex items-center justify-between">
+            <div key={deposit.id} className="bg-white/40 dark:bg-white/10 backdrop-blur-xl border border-white/40 dark:border-white/20 p-5 rounded-2xl flex items-center justify-between shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/60 dark:hover:bg-white/20 transition-all duration-300">
               <div>
-                <p className="font-bold text-dark-900 dark:text-white">Rp {deposit.amount.toLocaleString('id-ID')}</p>
-                <p className="text-xs text-dark-600 dark:text-white/50">{deposit.date} - {deposit.code}</p>
+                <p className="text-lg font-extrabold text-dark-900 dark:text-white drop-shadow-sm">Rp {deposit.amount.toLocaleString('id-ID')}</p>
+                <p className="text-xs sm:text-sm font-semibold text-dark-600 dark:text-white/80 mt-1">
+                  {deposit.date || 'Tanggal tidak tersedia'} <span className="mx-1 opacity-50">•</span> <span className="tracking-widest uppercase opacity-80">{deposit.code || 'NO-REF'}</span>
+                </p>
               </div>
-              <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${getStatusColor(deposit.status)}`}>
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold tracking-wide shadow-sm ${getStatusColor(deposit.status)}`}>
                 {getStatusIcon(deposit.status)}
                 {getStatusLabel(deposit.status)}
               </div>
             </div>
           ))
         ) : (
-          <p className="text-dark-600 dark:text-white/60">Belum ada riwayat deposit.</p>
+          <p className="text-dark-600 dark:text-white/60 font-medium bg-white/20 dark:bg-white/5 p-4 rounded-xl border border-white/20 backdrop-blur-md">Belum ada riwayat deposit.</p>
         )}
       </div>
     </div>
