@@ -22,7 +22,7 @@ const AdminLoginPage = () => {
       localStorage.setItem('admin_token', response.data.access_token);
       localStorage.setItem('admin_user', JSON.stringify(response.data.admin));
 
-      navigate('/admin/dashboard');
+      navigate('/pandu/dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed');
     } finally {

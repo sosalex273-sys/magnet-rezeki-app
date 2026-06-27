@@ -13,7 +13,7 @@ const AdminProtectedRoute = ({ children }) => {
     return <div className="flex items-center justify-center h-screen">Loading...</div>;
   }
 
-  return isAuthenticated ? children : <Navigate to="/admin/login" />;
+  return isAuthenticated ? children : <Navigate to="/pandu/login" />;
 };
 
 export default AdminProtectedRoute;

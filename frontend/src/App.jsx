@@ -35,9 +35,9 @@ function App() {
               />
 
               {/* Admin Routes */}
-              <Route path="/admin/login" element={<AdminLoginPage />} />
+              <Route path="/pandu/login" element={<AdminLoginPage />} />
               <Route
-                path="/admin/dashboard/*"
+                path="/pandu/dashboard/*"
                 element={
                   <AdminProtectedRoute>
                     <AdminDashboard />

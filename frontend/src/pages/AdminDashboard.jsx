@@ -108,7 +108,7 @@ const AdminDashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
     localStorage.removeItem('admin_user');
-    navigate('/admin/login');
+    navigate('/pandu/login');
   };
 
   const shellTheme = theme === 'dark'
@@ -405,10 +405,10 @@ const AdminDashboard = () => {
           </p>
 
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link to="/admin/dashboard" className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900">
+            <Link to="/pandu/dashboard" className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 dark:bg-white dark:text-slate-900">
               Kembali ke Admin Home
             </Link>
-            <Link to="/admin/dashboard/member/list" className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/15">
+            <Link to="/pandu/dashboard/member/list" className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/15">
               Buka Member List
             </Link>
           </div>
@@ -498,9 +498,9 @@ const AdminDashboard = () => {
             path="/balance/*"
             element={<ModulePage title="Balance Control" description="Monitor wallet saldo, masuk-keluar dana, dan transfer antar akun." icon={Wallet} accent="cyan" stats={[{ label: 'Total Saldo', value: summary ? `Rp ${Number(summary.totalWallet || 0).toLocaleString('id-ID')}` : 'Memuat...', icon: Wallet, tone: 'cyan' }, { label: 'Deposit Total', value: summary ? `Rp ${Number(summary.totalDeposits || 0).toLocaleString('id-ID')}` : 'Memuat...', icon: BadgeDollarSign, tone: 'emerald' }, { label: 'Withdrawal', value: summary ? `Rp ${Number(summary.totalWithdrawals || 0).toLocaleString('id-ID')}` : 'Memuat...', icon: ArrowRightLeft, tone: 'rose' }, { label: 'Transfer', value: String(counts.investments || 0), icon: FileText, tone: 'violet' }]} columns={balanceColumns} rows={balanceRows} footerNote="Semua perubahan saldo dan perpindahan dana dipantau dari dashboard ini." actionLabel="Rekap Saldo" />} />
           <Route path="/download/*" element={<DownloadCenterPage />} />
-          <Route path="/admin/logs" element={<AuditLogPage />} />
+          <Route path="/pandu/logs" element={<AuditLogPage />} />
           <Route
-            path="/admin/*"
+            path="/pandu/*"
             element={<ModulePage title="Admin Control" description="Kelola akun admin, audit akses, dan keamanan operasional." icon={ShieldCheck} accent="slate" stats={[{ label: 'Admin Aktif', value: '3', icon: Users, tone: 'emerald' }, { label: 'Login Hari Ini', value: '19', icon: Clock3, tone: 'cyan' }, { label: 'Audit Log', value: '248', icon: FileText, tone: 'violet' }, { label: 'Policy Lock', value: 'ON', icon: ShieldCheck, tone: 'slate' }]} columns={adminColumns} rows={adminRows} footerNote="Area ini dipakai untuk kontrol akses dan manajemen admin internal." actionLabel="Audit Admin" />} />
           <Route path="*" element={<PlaceholderPage title="Page" />} />
         </Routes>

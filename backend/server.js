@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 import { randomUUID } from 'crypto';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -232,26 +233,60 @@ app.post('/api/admin/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const ADMIN_USERNAME = 'admin';
-    const ADMIN_PASSWORD = 'admin123';
+    if (!hasSupabaseConfig) {
+      const ADMIN_USERNAME = 'admin';
+      const ADMIN_PASSWORD = 'admin123';
+      if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+      const token = createToken(
+        { id: 'admin_user', username: ADMIN_USERNAME, role: 'admin' },
+        process.env.JWT_SECRET || 'admin_secret_key'
+      );
+      return res.json({
+        message: 'Admin login successful (test mode)',
+        access_token: token,
+        admin: { id: 'admin_user', username: ADMIN_USERNAME, name: 'Administrator', role: 'admin' }
+      });
+    }
 
-    if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+    const { data: adminUser, error: fetchError } = await dbClient
+      .from('admin_users')
+      .select('*')
+      .eq('username', username)
+      .single();
+
+    if (fetchError || !adminUser) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    if (!adminUser.is_active) {
+      return res.status(403).json({ error: 'Admin account is disabled' });
+    }
+
+    const isMatch = await bcrypt.compare(password, adminUser.password_hash);
+    if (!isMatch) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
     const token = createToken(
-      { id: 'admin_user', username: ADMIN_USERNAME, role: 'admin' },
+      { id: adminUser.id, username: adminUser.username, role: adminUser.role },
       process.env.JWT_SECRET || 'admin_secret_key'
     );
+
+    await dbClient
+      .from('admin_users')
+      .update({ last_login_at: new Date() })
+      .eq('id', adminUser.id);
 
     res.json({
       message: 'Admin login successful',
       access_token: token,
       admin: {
-        id: 'admin_user',
-        username: ADMIN_USERNAME,
-        name: 'Administrator',
-        role: 'admin'
+        id: adminUser.id,
+        username: adminUser.username,
+        name: adminUser.name,
+        role: adminUser.role
       }
     });
   } catch (error) {
